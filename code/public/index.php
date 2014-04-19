@@ -1,5 +1,10 @@
 <?
 
+
+// raw test of various parts all crammed into one file. 
+// will break this out into appropriate places shortly. 
+// James Barros <james.a.barros@g-don't-spam-me-mail.com> 2014-04-19
+
 header('Content-Type: application/json');
 
 $uri = explode("/", substr($_SERVER['REQUEST_URI'],1));
