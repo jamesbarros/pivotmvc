@@ -7,3 +7,14 @@ This will all change soon.
 Should be functional and ready for public consumption by June of 2014. 
 
 -- James
+
+Requirements: 
+  
+  apache (or rewrite .htaccess appropriately for whatever webserver you want.) 
+
+  mongodb-server
+
+  php inc mongodbclient 
+    pear install -f pecl/mongo
+    
+  a desire to use a docstore that is usable within 5 minutes, 100% flexible yet still allows for conventional mvc code when you need it. 
