@@ -1,5 +1,10 @@
 <?
 
+
+require('../model/default.model.php');
+use pivot/model/default as model;
+
+
 header('Content-Type: application/json');
 
 $uri = explode("/", substr($_SERVER['REQUEST_URI'],1));
@@ -75,7 +80,8 @@ function put($env, $endpoint, $id)
      
    // echo "body is : ",$body;
    // var_dump($data);
-   $result = save($env, $endpoint, $id, $data); 
+   $model = new model();
+   $result = $model->save($env, $endpoint, $id, $data); 
     
     return $result; 
     
@@ -83,136 +89,20 @@ function put($env, $endpoint, $id)
 
 function get($env, $endpoint, $id)
 {
-    $result = find($env, $endpoint, $id); 
+    $model = new model();
+    $result = $model->find($env, $endpoint, $id); 
 
     return $result;
 }
 
 function delete($env, $endpoint, $id)
 {
-    $result = remove($env, $endpoint, $id); 
+    $model = new model();
+    $result = $model->remove($env, $endpoint, $id); 
 
     return $result;
 }
 
 
-function remove($env, $endpoint,$id)
-{
-        // move this to a config file, and grab using scope.
-    // username and password? 
-    $dbConnection = array
-        ('server' => 'localhost',
-        'port' => 27017,
-         'db' => $env
-        );  
-    
-    
-    $options = array(); 
-    if (isset($id) && $id)
-        $options['_id'] = $id;
-    else
-        return (array("error" => "must specify an id to remove records")); 
-    
-   try { 
-        $connection = new MongoClient();
-        if (!$connection)
-            throw new ErrorException('Could not connect to Mongo');
-        
-        $collection = $connection->$env->$endpoint;
-        if (!isset($collection))
-            throw new ErrorException('Could not get collection'.$env.'->'.$endpoint);
-            
-        $collection->remove($options);
-    
-        $data = "Deleted ".$id;         
-        //var_dump($data);
-    }
-    catch (exception $e)
-    {
-        return $e->getMessage();
-    }
-    
-    return $data; 
-    
-}
-
-
-
-function find($env, $endpoint, $id)
-{
-        // move this to a config file, and grab using scope.
-    // username and password? 
-    $dbConnection = array
-        ('server' => 'localhost',
-        'port' => 27017,
-         'db' => $env
-        );  
-    
-    
-    $options = array(); 
-    if (isset($id) && $id)
-        $options['_id'] = $id; 
-    
-     
-   try { 
-        $connection = new MongoClient();
-        if (!$connection)
-            throw new ErrorException('Could not connect to Mongo');
-        
-        $collection = $connection->$env->$endpoint;
-        if (!isset($collection))
-            throw new ErrorException('Could not get collection'.$env.'->'.$endpoint);
-            
-        $cursor = $collection->find($options);
-        foreach($cursor as $doc)
-            $data[] = $doc;
-            
-        if (!isset($data) || !is_array($data))
-            $data = "No Data Found.";
-        
-        //var_dump($data);
-    }
-    catch (exception $e)
-    {
-        return $e->getMessage();
-    }
-    
-    return $data; 
-    
-}
-
-
-function save($env, $endpoint, $id, $data)
-{
-    // move this to a config file, and grab using scope.
-    // username and password? 
-    $dbConnection = array
-        ('server' => 'localhost',
-        'port' => 27017,
-         'db' => $env
-        );  
-   
-    $data->_id = $id;
-   
-    try { 
-        $connection = new MongoClient();
-        if (!$connection)
-            throw new ErrorException('Could not connect to Mongo');
-        
-        $collection = $connection->$env->$endpoint;
-        if (!isset($collection))
-            throw new ErrorException('Could not get collection'.$env.'->'.$endpoint);
-            
-        $collection->update(array('_id'=>$id), $data, array('upsert' => true));
-    }
-    catch (exception $e)
-    {
-        return $e->getMessage();
-    }
-    
-    return $data; 
-   
-   
-} 
 
 ?> 
