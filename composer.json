@@ -1,0 +1,20 @@
+{
+    "name": "pivotmvc/pivotmvc",
+    "description": "A quick-start MVC",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "James Barros",
+            "email": "james.a.barros@gmail.com"
+        }
+    ],
+    "require": {
+        "icanboogie/inflector" : "dev-master"
+    },
+    
+    "autoload" : {
+        "psr-0" : {
+            "PivotMvc" : "app/src"
+        }
+    }
+}

@@ -1,17 +1,16 @@
 <?php
 
-namespace pivot\model;
+namespace PivotMvc\Model;
 
-use pivot\model\baseModel;
+use PivotMvc\Model\BaseModel as Base;
 
 /*
  * the default model which provides basic CRUD functionality, via baseModel
  *
  * author: James Barros <james.a.barros@gmail.com>
  *
- */ 
-
-class defaultModel extends baseModel
+ */
+class DefaultModel extends Base
 {
     
 } 
